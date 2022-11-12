@@ -36,7 +36,7 @@ router.get('/MaterialByName', function (req, res) {
   const { oNombre } = req.body;
   let oFiltro = {
     $and: [
-      { "oNombre": /oNombre/ },
+      { "oNombre": ".*" + /oNombre/ + ".*" },
       { isActive: 1 }
     ]
   }
