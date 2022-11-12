@@ -40,7 +40,7 @@ router.post('/Manualidad', function (req, res) {
     "oContenido": oContenido,
     "oUrlImage": oUrlImage,
     "oFecha": oFecha,
-    "oConteoRangkin": oConteoRanking,
+    "oConteoRanking": oConteoRanking,
     "oMateriales": [oMateriales],
     "oCategorias": [oCategorias],
     "oComentarios": [oComentarios],
@@ -60,13 +60,57 @@ router.post('/Manualidad', function (req, res) {
     if (err) throw err;
   })
 })
-router.put('/ManualidadComentario', function (req, res) {
+router.put('/ManualidadComentarios', function (req, res) {
 
   const { _id, oComentario } = req.body;
   let oDatos = {
     $push:
 
       { "oComentario": oComentario }
+  }
+  let oFiltro = { _id: new oMongo.ObjectID(_id) }
+  oConnection.connect(err => {
+    oConnection.db('wecancodeDB').collection('manualidades').updateOne(oFiltro, oDatos, function (error, response) {
+      if (error) {
+        console.log('Error occurred while inserting');
+        // return 
+      } else {
+        return res.json(response);
+        // return 
+      }
+    })
+    if (err) throw err;
+  })
+})
+router.put('/ManualidadCategoria', function (req, res) {
+
+  const { _id, oCategorias } = req.body;
+  let oDatos = {
+    $push:
+
+      { "oCategorias": oCategorias }
+  }
+  let oFiltro = { _id: new oMongo.ObjectID(_id) }
+  oConnection.connect(err => {
+    oConnection.db('wecancodeDB').collection('manualidades').updateOne(oFiltro, oDatos, function (error, response) {
+      if (error) {
+        console.log('Error occurred while inserting');
+        // return 
+      } else {
+        return res.json(response);
+        // return 
+      }
+    })
+    if (err) throw err;
+  })
+})
+router.put('/ManualidadMaterial', function (req, res) {
+
+  const { _id, oMateriales } = req.body;
+  let oDatos = {
+    $push:
+
+      { "oMateriales": oMateriales }
   }
   let oFiltro = { _id: new oMongo.ObjectID(_id) }
   oConnection.connect(err => {
