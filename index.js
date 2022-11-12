@@ -14,7 +14,7 @@ app.use("/API/Reciclaje", oManualidad)
 app.use("/API/Reciclaje", oCategoria)
 
 
-app.listen(3000, () => {
+app.listen(3001, () => {
     console.log('SERVER RUNNING')
 })
 module.exports = app;

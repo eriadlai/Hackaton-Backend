@@ -57,6 +57,7 @@ router.post('/Usuario', function (req, res) {
     "oCorreo": oCorreo,
     "isActive": 1
   }
+  console.log(oDatos);
   oConnection.connect(err => {
     oConnection.db('wecancodeDB').collection('usuario').insertOne(oDatos, function (error, response) {
       if (error) {
