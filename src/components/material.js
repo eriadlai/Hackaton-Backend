@@ -36,7 +36,7 @@ router.get('/MaterialByName', function (req, res) {
   const { oNombre } = req.body;
   let oFiltro = {
     $and: [
-      { "oNombre": ".*" + /oNombre/ + ".*" },
+      { 'oNombre': new RegExp(oNombre, 'i') },
       { isActive: 1 }
     ]
   }
@@ -55,7 +55,8 @@ router.post('/Material', function (req, res) {
   let oDatos = {
     "oNombre": oNombre,
     "oDescripcion": oDescripcion,
-    "oCategoria": oCategoria,
+    "oCategoria": [oCategoria],
+    "isActive": 1
   }
   oConnection.connect(err => {
     oConnection.db('wecancodeDB').collection('material').insertOne(oDatos, function (error, response) {
