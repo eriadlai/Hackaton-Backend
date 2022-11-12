@@ -1,61 +1,95 @@
 const oConnection = require('../../database');
+var oMongo = require('mongodb');
 var express = require('express');
 var router = express.Router();
 
 
-  router.get('/Material', function (req, res) {
 
-  const {oid} = req.body;
-  let oQuery = `CALL GetMaterialSP(?)`;
-  oConnection.query(oQuery, [oid], (error, rows, fields) => {
-    if (error) {
-      return console.error(error.message);
-    }
-    return res.json(rows);
+router.get('/Material', function (req, res) {
+  oConnection.connect(err => {
+    oConnection.db('wecancodeDB').collection('material').find({ isActive: 1 }).toArray((err, result) => {
+      if (err) throw err;
+
+      return res.json(result);
+    })
+    if (err) throw err;
+  })
+})
+router.get('/MaterialById', function (req, res) {
+  const { _id } = req.body;
+  let oFiltro = {
+    $and: [
+      { _id: new oMongo.ObjectID(_id) },
+      { isActive: 1 }
+    ]
+  }
+  oConnection.connect(err => {
+    oConnection.db('wecancodeDB').collection('material').find(oFiltro).toArray((err, result) => {
+      if (err) throw err;
+
+      return res.json(result);
+    })
+    if (err) throw err;
+  })
+})
+router.post('/Material', function (req, res) {
+
+  const { oNombre, oDescripcion, oCategoria } = req.body;
+  let oDatos = {
+    "oNombre": oNombre,
+    "oDescripcion": oDescripcion,
+    "oCategoria": oCategoria,
+  }
+  oConnection.connect(err => {
+    oConnection.db('wecancodeDB').collection('material').insertOne(oDatos, function (error, response) {
+      if (error) {
+        console.log('Error occurred while inserting');
+        // return 
+      } else {
+        return res.json(response);
+        // return 
+      }
+    })
+    if (err) throw err;
+  })
+})
+router.put('/Material', function (req, res) {
+
+  const { _id, oNombre, oDescripcion, oCategoria } = req.body;
+  let oDatos = {
+    "oNombre": oNombre,
+    "oDescripcion": oDescripcion,
+    "oCategoria": oCategoria
+  }
+  let oFiltro = { _id: new oMongo.ObjectID(_id) }
+  oConnection.connect(err => {
+    oConnection.db('wecancodeDB').collection('material').replaceOne(oFiltro, oDatos, function (error, response) {
+      if (error) {
+        console.log('Error occurred while inserting');
+        // return 
+      } else {
+        return res.json(response);
+        // return 
+      }
+    })
+    if (err) throw err;
   });
-  })
-  router.get('/MaterialById', function (req, res) {
-
-    const {oid} = req.body;
-    let oQuery = `CALL GetMaterialByIDSP(?)`;
-    oConnection.query(oQuery, [oid], (error, rows, fields) => {
+})
+router.put('/MaterialDelete', function (req, res) {
+  const { _id } = req.body;
+  let oFiltro = { _id: new oMongo.ObjectID(_id) }
+  let oDatos = { $set: { isActive: 0 } }
+  oConnection.connect(err => {
+    oConnection.db('wecancodeDB').collection('material').updateOne(oFiltro, oDatos, function (error, response) {
       if (error) {
-        return console.error(error.message);
+        console.log('Error occurred while inserting');
+        // return 
+      } else {
+        return res.json(response);
+        // return 
       }
-      return res.json(rows);
-    });
-  })
-  router.post('/Material', function (req, res) {
-
-    const {oNombre, oDescripcion, oCategoria} = req.body;
-    let oQuery = `CALL GetMaterialByIDSP(?,?,?)`;
-    oConnection.query(oQuery, [oNombre, oDescripcion, oCategoria], (error, rows, fields) => {
-      if (error) {
-        return console.error(error.message);
-      }
-      return res.json(rows);
-    });
-  })
-  router.put('/Material', function (req, res) {
-
-    const {oID, oNombre, oDescripcion, oCategoria} = req.body;
-    let oQuery = `CALL GetMaterialByIDSP(?,?,?,?)`;
-    oConnection.query(oQuery, [oID,oNombre, oDescripcion, oCategoria], (error, rows, fields) => {
-      if (error) {
-        return console.error(error.message);
-      }
-      return res.json(rows);
-    });
-  })
-  router.put('/MaterialDelete', function (req, res) {
-
-    const {oid} = req.body;
-    let oQuery = `CALL DeleteMaterialSP(?)`;
-    oConnection.query(oQuery, [oid], (error, rows, fields) => {
-      if (error) {
-        return console.error(error.message);
-      }
-      return res.json(rows);
-    });
-  })
-  module.exports = router;
+    })
+    if (err) throw err;
+  });
+})
+module.exports = router;

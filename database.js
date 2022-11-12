@@ -1,12 +1,5 @@
-const oMysql = require('mysql')
-const oConnection = oMysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'adlai1999',
-  database: 'wecancodedb'
-})
-oConnection.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-});
-module.exports = oConnection;
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://wccUser1:asdas2adsa@wecancodedb.3zjk8cj.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+client.connect();
+module.exports = client;
