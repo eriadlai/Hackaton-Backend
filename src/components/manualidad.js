@@ -6,7 +6,7 @@ var router = express.Router();
 router.get('/Manualidad', function (req, res) {
 
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('manualidad').find({ isActive: 1 }).toArray((err, result) => {
+    oConnection.db('wecancodeDB').collection('manualidades').find({ isActive: 1 }).toArray((err, result) => {
       if (err) throw err;
 
       return res.json(result);
@@ -23,7 +23,7 @@ router.get('/ManualidadById', function (req, res) {
     ]
   }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('manualidad').find(oFiltro).toArray((err, result) => {
+    oConnection.db('wecancodeDB').collection('manualidades').find(oFiltro).toArray((err, result) => {
       if (err) throw err;
 
       return res.json(result);
@@ -33,17 +33,44 @@ router.get('/ManualidadById', function (req, res) {
 })
 router.post('/Manualidad', function (req, res) {
 
-  const { oTitulo, oAutor, oContenido, oUrlImage, oFecha, oUserID } = req.body;
+  const { oTitulo, oAutor, oContenido, oUrlImage, oFecha, oConteoRanking, oMateriales, oCategorias, oComentarios } = req.body;
   let oDatos = {
     "oTitulo": oTitulo,
     "oAutor": oAutor,
     "oContenido": oContenido,
     "oUrlImage": oUrlImage,
     "oFecha": oFecha,
-    "oUserId": oUserID,
+    "oConteoRangkin": oConteoRanking,
+    "oMateriales": [oMateriales],
+    "oCategorias": [oCategorias],
+    "oComentarios": [oComentarios],
+    "isActive": 1
   }
+
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('manualidad').insertOne(oDatos, function (error, response) {
+    oConnection.db('wecancodeDB').collection('manualidades').insertOne(oDatos, function (error, response) {
+      if (error) {
+        console.log('Error occurred while inserting');
+        // return 
+      } else {
+        return res.json(response);
+        // return 
+      }
+    })
+    if (err) throw err;
+  })
+})
+router.put('/ManualidadComentario', function (req, res) {
+
+  const { _id, oComentario } = req.body;
+  let oDatos = {
+    $push:
+
+      { "oComentario": oComentario }
+  }
+  let oFiltro = { _id: new oMongo.ObjectID(_id) }
+  oConnection.connect(err => {
+    oConnection.db('wecancodeDB').collection('manualidades').updateOne(oFiltro, oDatos, function (error, response) {
       if (error) {
         console.log('Error occurred while inserting');
         // return 
@@ -68,7 +95,7 @@ router.put('/Manualidad', function (req, res) {
   }
   let oFiltro = { _id: new oMongo.ObjectID(_id) }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('manualidad').replaceOne(oFiltro, oDatos, function (error, response) {
+    oConnection.db('wecancodeDB').collection('manualidades').replaceOne(oFiltro, oDatos, function (error, response) {
       if (error) {
         console.log('Error occurred while inserting');
         // return 
@@ -85,7 +112,7 @@ router.put('/ManualidadDelete', function (req, res) {
   let oFiltro = { _id: new oMongo.ObjectID(_id) }
   let oDatos = { $set: { isActive: 0 } }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('manualidad').updateOne(oFiltro, oDatos, function (error, response) {
+    oConnection.db('wecancodeDB').collection('manualidades').updateOne(oFiltro, oDatos, function (error, response) {
       if (error) {
         console.log('Error occurred while inserting');
         // return 
