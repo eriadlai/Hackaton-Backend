@@ -31,6 +31,40 @@ router.get('/ManualidadById', function (req, res) {
     if (err) throw err;
   })
 })
+router.get('/ManualidadByCategoria', function (req, res) {
+  const { oCategoria } = req.body;
+  let oFiltro = {
+    $and: [
+      { oCategorias: oCategoria  },
+      { isActive: 1 }
+    ]
+  }
+  oConnection.connect(err => {
+    oConnection.db('wecancodeDB').collection('manualidades').find(oFiltro).toArray((err, result) => {
+      if (err) throw err;
+
+      return res.json(result);
+    })
+    if (err) throw err;
+  })
+})
+router.get('/ManualidadByMaterial', function (req, res) {
+  const { oMaterial } = req.body;
+  let oFiltro = {
+    $and: [
+      { oMateriales: oMaterial },
+      { isActive: 1 }
+    ]
+  }
+  oConnection.connect(err => {
+    oConnection.db('wecancodeDB').collection('manualidades').find(oFiltro).toArray((err, result) => {
+      if (err) throw err;
+
+      return res.json(result);
+    })
+    if (err) throw err;
+  })
+})
 router.post('/Manualidad', function (req, res) {
 
   const { oTitulo, oAutor, oContenido, oUrlImage, oFecha, oConteoRanking, oMateriales, oCategorias, oComentarios } = req.body;
