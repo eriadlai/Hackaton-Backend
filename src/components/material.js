@@ -32,6 +32,23 @@ router.get('/MaterialById', function (req, res) {
     if (err) throw err;
   })
 })
+router.get('/MaterialByName', function (req, res) {
+  const { oNombre } = req.body;
+  let oFiltro = {
+    $and: [
+      { "oNombre": /oNombre/ },
+      { isActive: 1 }
+    ]
+  }
+  oConnection.connect(err => {
+    oConnection.db('wecancodeDB').collection('material').find(oFiltro).toArray((err, result) => {
+      if (err) throw err;
+
+      return res.json(result);
+    })
+    if (err) throw err;
+  })
+})
 router.post('/Material', function (req, res) {
 
   const { oNombre, oDescripcion, oCategoria } = req.body;
