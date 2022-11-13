@@ -73,10 +73,10 @@ router.post('/Manualidad', function (req, res) {
     "oAutor": oAutor,
     "oContenido": oContenido,
     "oUrlImage": oUrlImage,
-    "oFecha": oFecha,
+    "oFecha": new Date().getMonth(),
     "oConteoRanking": oConteoRanking,
     "oMateriales": [oMateriales],
-    "oCategorias": [oCategorias],
+    "oCategorias": oCategorias,
     "oComentarios": [oComentarios],
     "isActive": 1
   }
