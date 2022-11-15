@@ -5,7 +5,7 @@ var router = express.Router();
 
 router.get('/Usuario', function (req, res) {
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('usuario').find({ isActive: 1 }).toArray((err, result) => {
+    oConnection.db('Recycle').collection('usuario').find({ isActive: 1 }).toArray((err, result) => {
       if (err) throw err;
 
       return res.json(result);
@@ -22,7 +22,7 @@ router.get('/UsuarioById', function (req, res) {
     ]
   }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('usuario').find(oFiltro).toArray((err, result) => {
+    oConnection.db('Recycle').collection('usuario').find(oFiltro).toArray((err, result) => {
       if (err) throw err;
 
       return res.json(result);
@@ -40,7 +40,7 @@ router.get('/UsuarioLogin', function (req, res) {
     ]
   }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('usuario').find(oFiltro).toArray((err, result) => {
+    oConnection.db('Recycle').collection('usuario').find(oFiltro).toArray((err, result) => {
       if (err) throw err;
 
       return res.json(result);
@@ -59,7 +59,7 @@ router.post('/Usuario', function (req, res) {
   }
   console.log(oDatos);
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('usuario').insertOne(oDatos, function (error, response) {
+    oConnection.db('Recycle').collection('usuario').insertOne(oDatos, function (error, response) {
       if (error) {
         console.log('Error occurred while inserting');
         // return 
@@ -81,7 +81,7 @@ router.put('/Usuario', function (req, res) {
   }
   let oFiltro = { _id: new oMongo.ObjectID(_id) }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('usuario').replaceOne(oFiltro, oDatos, function (error, response) {
+    oConnection.db('Recycle').collection('usuario').replaceOne(oFiltro, oDatos, function (error, response) {
       if (error) {
         console.log('Error occurred while inserting');
         // return 
@@ -98,7 +98,7 @@ router.put('/UsuarioDelete', function (req, res) {
   let oFiltro = { _id: new oMongo.ObjectID(_id) }
   let oDatos = { $set: { isActive: 0 } }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('usuario').updateOne(oFiltro, oDatos, function (error, response) {
+    oConnection.db('Recycle').collection('usuario').updateOne(oFiltro, oDatos, function (error, response) {
       if (error) {
         console.log('Error occurred while inserting');
         // return 

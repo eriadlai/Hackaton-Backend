@@ -6,7 +6,7 @@ var router = express.Router();
 router.get('/Manualidad', function (req, res) {
 
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('manualidades').find({ isActive: 1 }).toArray((err, result) => {
+    oConnection.db('Recycle').collection('manualidades').find({ isActive: 1 }).toArray((err, result) => {
       if (err) throw err;
 
       return res.json(result);
@@ -23,7 +23,7 @@ router.get('/ManualidadById', function (req, res) {
     ]
   }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('manualidades').find(oFiltro).toArray((err, result) => {
+    oConnection.db('Recycle').collection('manualidades').find(oFiltro).toArray((err, result) => {
       if (err) throw err;
 
       return res.json(result);
@@ -40,7 +40,7 @@ router.get('/ManualidadByCategoria', function (req, res) {
     ]
   }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('manualidades').find(oFiltro).toArray((err, result) => {
+    oConnection.db('Recycle').collection('manualidades').find(oFiltro).toArray((err, result) => {
       if (err) throw err;
 
       return res.json(result);
@@ -57,7 +57,7 @@ router.get('/ManualidadByMaterial', function (req, res) {
     ]
   }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('manualidades').find(oFiltro).toArray((err, result) => {
+    oConnection.db('Recycle').collection('manualidades').find(oFiltro).toArray((err, result) => {
       if (err) throw err;
 
       return res.json(result);
@@ -67,7 +67,7 @@ router.get('/ManualidadByMaterial', function (req, res) {
 })
 router.post('/Manualidad', function (req, res) {
 
-  const { oTitulo, oAutor, oContenido, oUrlImage, oFecha, oConteoRanking, oMateriales, oCategorias, oComentarios } = req.body;
+  const { oTitulo, oAutor, oContenido, oUrlImage, oConteoRanking, oMateriales, oCategorias, oComentarios } = req.body;
   let oDatos = {
     "oTitulo": oTitulo,
     "oAutor": oAutor,
@@ -82,7 +82,7 @@ router.post('/Manualidad', function (req, res) {
   }
 
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('manualidades').insertOne(oDatos, function (error, response) {
+    oConnection.db('Recycle').collection('manualidades').insertOne(oDatos, function (error, response) {
       if (error) {
         console.log('Error occurred while inserting');
         // return 
@@ -104,7 +104,7 @@ router.put('/ManualidadComentarios', function (req, res) {
   }
   let oFiltro = { _id: new oMongo.ObjectID(_id) }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('manualidades').updateOne(oFiltro, oDatos, function (error, response) {
+    oConnection.db('Recycle').collection('manualidades').updateOne(oFiltro, oDatos, function (error, response) {
       if (error) {
         console.log('Error occurred while inserting');
         // return 
@@ -126,7 +126,7 @@ router.put('/ManualidadCategoria', function (req, res) {
   }
   let oFiltro = { _id: new oMongo.ObjectID(_id) }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('manualidades').updateOne(oFiltro, oDatos, function (error, response) {
+    oConnection.db('Recycle').collection('manualidades').updateOne(oFiltro, oDatos, function (error, response) {
       if (error) {
         console.log('Error occurred while inserting');
         // return 
@@ -148,7 +148,7 @@ router.put('/ManualidadMaterial', function (req, res) {
   }
   let oFiltro = { _id: new oMongo.ObjectID(_id) }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('manualidades').updateOne(oFiltro, oDatos, function (error, response) {
+    oConnection.db('Recycle').collection('manualidades').updateOne(oFiltro, oDatos, function (error, response) {
       if (error) {
         console.log('Error occurred while inserting');
         // return 
@@ -173,7 +173,7 @@ router.put('/Manualidad', function (req, res) {
   }
   let oFiltro = { _id: new oMongo.ObjectID(_id) }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('manualidades').replaceOne(oFiltro, oDatos, function (error, response) {
+    oConnection.db('Recycle').collection('manualidades').replaceOne(oFiltro, oDatos, function (error, response) {
       if (error) {
         console.log('Error occurred while inserting');
         // return 
@@ -190,7 +190,7 @@ router.put('/ManualidadDelete', function (req, res) {
   let oFiltro = { _id: new oMongo.ObjectID(_id) }
   let oDatos = { $set: { isActive: 0 } }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('manualidades').updateOne(oFiltro, oDatos, function (error, response) {
+    oConnection.db('Recycle').collection('manualidades').updateOne(oFiltro, oDatos, function (error, response) {
       if (error) {
         console.log('Error occurred while inserting');
         // return 

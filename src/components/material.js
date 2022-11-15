@@ -7,7 +7,7 @@ var router = express.Router();
 
 router.get('/Material', function (req, res) {
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('material').find({ isActive: 1 }).toArray((err, result) => {
+    oConnection.db('Recycle').collection('material').find({ isActive: 1 }).toArray((err, result) => {
       if (err) throw err;
 
       return res.json(result);
@@ -24,7 +24,7 @@ router.get('/MaterialById', function (req, res) {
     ]
   }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('material').find(oFiltro).toArray((err, result) => {
+    oConnection.db('Recycle').collection('material').find(oFiltro).toArray((err, result) => {
       if (err) throw err;
 
       return res.json(result);
@@ -41,7 +41,7 @@ router.get('/MaterialByName', function (req, res) {
     ]
   }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('material').find(oFiltro).toArray((err, result) => {
+    oConnection.db('Recycle').collection('material').find(oFiltro).toArray((err, result) => {
       if (err) throw err;
 
       return res.json(result);
@@ -59,7 +59,7 @@ router.get('/MaterialByCategoria', function (req, res) {
     ]
   }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('material').find(oFiltro).toArray((err, result) => {
+    oConnection.db('Recycle').collection('material').find(oFiltro).toArray((err, result) => {
       if (err) throw err;
 
       return res.json(result);
@@ -77,7 +77,7 @@ router.post('/Material', function (req, res) {
     "isActive": 1
   }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('material').insertOne(oDatos, function (error, response) {
+    oConnection.db('Recycle').collection('material').insertOne(oDatos, function (error, response) {
       if (error) {
         console.log('Error occurred while inserting');
         // return 
@@ -99,7 +99,7 @@ router.put('/Material', function (req, res) {
   }
   let oFiltro = { _id: new oMongo.ObjectID(_id) }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('material').replaceOne(oFiltro, oDatos, function (error, response) {
+    oConnection.db('Recycle').collection('material').replaceOne(oFiltro, oDatos, function (error, response) {
       if (error) {
         console.log('Error occurred while inserting');
         // return 
@@ -116,7 +116,7 @@ router.put('/MaterialDelete', function (req, res) {
   let oFiltro = { _id: new oMongo.ObjectID(_id) }
   let oDatos = { $set: { isActive: 0 } }
   oConnection.connect(err => {
-    oConnection.db('wecancodeDB').collection('material').updateOne(oFiltro, oDatos, function (error, response) {
+    oConnection.db('Recycle').collection('material').updateOne(oFiltro, oDatos, function (error, response) {
       if (error) {
         console.log('Error occurred while inserting');
         // return 
