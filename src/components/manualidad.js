@@ -31,23 +31,6 @@ router.get('/ManualidadById', function (req, res) {
     if (err) throw err;
   })
 })
-router.get('/ManualidadByCategoria', function (req, res) {
-  const { oCategoria } = req.body;
-  let oFiltro = {
-    $and: [
-      { oCategorias: oCategoria  },
-      { isActive: 1 }
-    ]
-  }
-  oConnection.connect(err => {
-    oConnection.db('Recycle').collection('manualidades').find(oFiltro).toArray((err, result) => {
-      if (err) throw err;
-
-      return res.json(result);
-    })
-    if (err) throw err;
-  })
-})
 router.get('/ManualidadByMaterial', function (req, res) {
   const { oMaterial } = req.body;
   let oFiltro = {
@@ -67,7 +50,7 @@ router.get('/ManualidadByMaterial', function (req, res) {
 })
 router.post('/Manualidad', function (req, res) {
 
-  const { oTitulo, oAutor, oContenido, oUrlImage, oConteoRanking, oMateriales, oCategorias, oComentarios } = req.body;
+  const { oTitulo, oAutor, oContenido, oUrlImage, oConteoRanking, oMateriales,oComentarios } = req.body;
   let oDatos = {
     "oTitulo": oTitulo,
     "oAutor": oAutor,
@@ -76,7 +59,6 @@ router.post('/Manualidad', function (req, res) {
     "oFecha": new Date().getMonth(),
     "oConteoRanking": oConteoRanking,
     "oMateriales": [oMateriales],
-    "oCategorias": oCategorias,
     "oComentarios": [oComentarios],
     "isActive": 1
   }

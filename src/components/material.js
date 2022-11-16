@@ -69,10 +69,9 @@ router.get('/MaterialByCategoria', function (req, res) {
 })
 router.post('/Material', function (req, res) {
 
-  const { oNombre, oDescripcion, oCategoria } = req.body;
+  const { oNombre, oCategoria } = req.body;
   let oDatos = {
     "oNombre": oNombre,
-    "oDescripcion": oDescripcion,
     "oCategoria": [oCategoria],
     "isActive": 1
   }
