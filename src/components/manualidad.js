@@ -48,18 +48,37 @@ router.get('/ManualidadByMaterial', function (req, res) {
     if (err) throw err;
   })
 })
+router.post('/ManualidadByCategoria', function (req, res) {
+  const { oCategorias } = req.body;
+  console.log(oCategorias)
+  let oFiltro = {
+    $and: [
+      { oCategorias:new RegExp(oCategorias, 'i') },
+      { isActive: 1 }
+    ]
+  }
+  oConnection.connect(err => {
+    oConnection.db('Recycle').collection('manualidades').find(oFiltro).toArray((err, result) => {
+      if (err) throw err;
+
+      return res.json(result);
+    })
+    if (err) throw err;
+  })
+})
 router.post('/Manualidad', function (req, res) {
 
-  const { oTitulo, oAutor, oContenido, oUrlImage, oConteoRanking, oMateriales,oComentarios } = req.body;
+  const { oTitulo, oAutor, oContenido, oUrlImage, oConteoRanking, oMateriales,oCategorias,oComentarios } = req.body;
   let oDatos = {
     "oTitulo": oTitulo,
     "oAutor": oAutor,
     "oContenido": oContenido,
     "oUrlImage": oUrlImage,
-    "oFecha": new Date().getMonth(),
+    "oFecha": new Date(),
     "oConteoRanking": oConteoRanking,
-    "oMateriales": [oMateriales],
-    "oComentarios": [oComentarios],
+    "oMateriales": oMateriales,
+    "oCategorias":oCategorias,
+    "oComentarios": oComentarios,
     "isActive": 1
   }
 

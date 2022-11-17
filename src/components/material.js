@@ -53,8 +53,7 @@ router.get('/MaterialByCategoria', function (req, res) {
   const { oNombre } = req.body;
   let oFiltro = {
     $and: [
-      { oCategoria: { $elemMatch: { $elemMatch: { $in: [new RegExp(oNombre, 'i')] } } } },
-
+      { oCategoria: { $elemMatch: { $in: [new RegExp(oNombre, 'i')] } } },
       { isActive: 1 }
     ]
   }
